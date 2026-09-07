@@ -57,6 +57,10 @@ button[disabled]{opacity:.55;cursor:default}
 footer{margin-top:3rem;padding-top:1.4rem;border-top:1px solid var(--rule);color:var(--faint);font-size:.85rem}
 .done{display:flex;flex-direction:column;gap:1.1rem;padding:4rem 0}
 .done .eyebrow{color:var(--ok)}
+.terms{display:flex;flex-direction:column;gap:1.15rem;border-top:1px solid var(--rule-soft);padding-top:1.15rem}
+.terms label{display:flex;flex-direction:column;gap:.35rem}
+.terms .t{font-weight:600;font-size:.97rem;color:var(--ink)}
+.terms .t em{font-style:normal;font-weight:400;color:var(--faint);font-size:.85rem}
 @media (max-width:620px){
   .gridwrap{overflow-x:visible;border-top:0}
   table{min-width:0}
@@ -177,9 +181,9 @@ footer{margin-top:3rem;padding-top:1.4rem;border-top:1px solid var(--rule);color
     <legend>
       <span class="qnum">Question 10</span>
       <h2>Terms</h2>
-      <p class="help">Some of these get used a lot. For any that mean something to you, describe it in one line in your own words. If it isn't a term you use, just say so, that's a useful answer and not a wrong one.<br><br><strong>AI agent &middot; harness &middot; MCP</strong></p>
+      <p class="help">These get used a lot. For any that mean something to you, describe it in one line in your own words. If it isn't a term you use, leave it blank or write "not a term I use". That's a useful answer and not a wrong one, and nobody knows all five.</p>
     </legend>
-    <textarea name="terms"></textarea>
+    <div class="terms" id="terms"></div>
   </fieldset>
 
   <fieldset>
@@ -219,6 +223,13 @@ footer{margin-top:3rem;padding-top:1.4rem;border-top:1px solid var(--rule);color
     "Something else (please say what below)"
   ];
   var FREQ = ["Almost every time","Often","Sometimes","Rarely","I'm not in those sessions"];
+  var TERMS = [
+    ["term_agent",   "AI agent"],
+    ["term_context", "Context window"],
+    ["term_vibe",    "Vibe coding"],
+    ["term_harness", "Harness"],
+    ["term_mcp",     "MCP"]
+  ];
   var BLOCKERS = ["Don't know where to start","No time to learn it","Don't trust the output","Worried about client data and GDPR","No licence or access","Haven't found a use for it in my work","Concerned about what it means for my job","Nothing, I use it plenty"];
 
   function fill(id, name, items, type) {
@@ -251,6 +262,22 @@ footer{margin-top:3rem;padding-top:1.4rem;border-top:1px solid var(--rule);color
     tbody.appendChild(tr);
   });
 
+  var termsBox = document.getElementById("terms");
+  TERMS.forEach(function (t) {
+    var label = document.createElement("label");
+    var cap = document.createElement("span");
+    cap.className = "t";
+    cap.textContent = t[1];
+    var input = document.createElement("input");
+    input.type = "text";
+    input.name = t[0];
+    input.autocomplete = "off";
+    input.placeholder = "In your own words, or leave blank";
+    label.appendChild(cap);
+    label.appendChild(input);
+    termsBox.appendChild(label);
+  });
+
   fill("tools", "tools", TOOLS, "checkbox");
   fill("tech", "tech_artifacts", TECH, "checkbox");
   fill("builds", "build_choice", BUILDS, "radio");
@@ -261,7 +288,7 @@ footer{margin-top:3rem;padding-top:1.4rem;border-top:1px solid var(--rule);color
   var btn = document.getElementById("btn");
   var msg = document.getElementById("msg");
   var MULTI = ["usage_ever", "usage_weekly", "tools", "tech_artifacts", "blockers"];
-  var SINGLE = ["automation_desc","task_to_offload","build_choice","build_choice_other","leadgen_frequency","client_asked","terms","respondent_name","website"];
+  var SINGLE = ["automation_desc","task_to_offload","build_choice","build_choice_other","leadgen_frequency","client_asked","term_agent","term_context","term_vibe","term_harness","term_mcp","respondent_name","website"];
 
   f.addEventListener("submit", function (e) {
     e.preventDefault();
