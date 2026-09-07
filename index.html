@@ -1,0 +1,296 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex,nofollow">
+<title>AI at CRM Insights</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Newsreader:opsz,wght@6..72,400;6..72,500&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<style>
+html{color-scheme:light dark}body{margin:0}
+:root{--paper:#f7f7f6;--raised:#fff;--ink:#17191c;--ink-soft:#3d434b;--muted:#666e78;--faint:#8d949d;--rule:#dededa;--rule-soft:#ebebe7;--accent:#8c5a2b;--accent-soft:#f1e8de;--ok:#1f6b4a;--err:#a8342c}
+@media (prefers-color-scheme:dark){:root{--paper:#15171a;--raised:#1c1f23;--ink:#eff0f1;--ink-soft:#c8ccd1;--muted:#959ba3;--faint:#6b7178;--rule:#2c3037;--rule-soft:#23272c;--accent:#d5a273;--accent-soft:#2a211a;--ok:#6ec39a;--err:#f0938a}}
+*{box-sizing:border-box}
+body{background:var(--paper);color:var(--ink);font-family:"IBM Plex Sans",-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;font-size:16px;line-height:1.6;-webkit-font-smoothing:antialiased}
+.wrap{max-width:44rem;margin:0 auto;padding:3rem 1.4rem 5rem}
+@media(max-width:600px){.wrap{padding:2rem 1.05rem 3.5rem}}
+h1,h2{margin:0;text-wrap:balance;letter-spacing:-.01em;line-height:1.15}
+h1{font-family:Newsreader,Georgia,serif;font-weight:500;font-size:clamp(2rem,5.5vw,2.85rem)}
+h2{font-size:1.12rem;font-weight:600;letter-spacing:-.005em;line-height:1.35}
+p{margin:0}
+.eyebrow{font-family:"IBM Plex Mono",ui-monospace,monospace;font-size:.7rem;font-weight:500;letter-spacing:.14em;text-transform:uppercase;color:var(--faint)}
+header{display:flex;flex-direction:column;gap:1rem;padding-bottom:1.75rem;border-bottom:1px solid var(--rule)}
+.lede{color:var(--ink-soft);font-size:1.04rem}
+.note{background:var(--accent-soft);border-left:3px solid var(--accent);padding:.9rem 1.1rem;display:flex;flex-direction:column;gap:.4rem;font-size:.93rem;color:var(--ink-soft);margin-top:1.5rem}
+form{display:flex;flex-direction:column;gap:2.6rem;margin-top:2.6rem}
+fieldset{border:0;margin:0;padding:0;display:flex;flex-direction:column;gap:.85rem}
+legend{padding:0;display:flex;flex-direction:column;gap:.35rem}
+.qnum{font-family:"IBM Plex Mono",ui-monospace,monospace;font-size:.7rem;letter-spacing:.12em;color:var(--accent);font-weight:500}
+.help{font-size:.9rem;color:var(--muted)}
+.opts{display:flex;flex-direction:column;gap:0;border-top:1px solid var(--rule-soft)}
+.opts label{display:grid;grid-template-columns:1.3rem 1fr;gap:.7rem;align-items:start;padding:.62rem .1rem;border-bottom:1px solid var(--rule-soft);cursor:pointer;font-size:.96rem;color:var(--ink-soft)}
+.opts label:hover{color:var(--ink)}
+input[type=checkbox],input[type=radio]{appearance:none;width:1.05rem;height:1.05rem;margin-top:.3rem;border:1.5px solid var(--faint);background:var(--raised);cursor:pointer;flex:none}
+input[type=radio]{border-radius:50%}
+input[type=checkbox]:checked,input[type=radio]:checked{background:var(--accent);border-color:var(--accent)}
+input[type=checkbox]:checked::after{content:"";display:block;width:.27rem;height:.55rem;border:solid var(--raised);border-width:0 1.7px 1.7px 0;transform:rotate(42deg);margin:.08rem auto 0}
+input[type=radio]:checked::after{content:"";display:block;width:.38rem;height:.38rem;border-radius:50%;background:var(--raised);margin:.28rem auto 0}
+input:focus-visible,textarea:focus-visible,button:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+textarea,input[type=text]{width:100%;background:var(--raised);color:var(--ink);border:1px solid var(--rule);padding:.65rem .75rem;font:inherit;font-size:.96rem;border-radius:0}
+textarea{min-height:5.5rem;resize:vertical}
+.gridwrap{overflow-x:auto;border-top:1px solid var(--rule-soft)}
+table{border-collapse:collapse;width:100%;min-width:29rem}
+th,td{padding:.6rem .5rem;border-bottom:1px solid var(--rule-soft);vertical-align:middle;text-align:left}
+thead th{font-family:"IBM Plex Mono",ui-monospace,monospace;font-size:.66rem;font-weight:500;letter-spacing:.08em;text-transform:uppercase;color:var(--faint);border-bottom:1px solid var(--rule);text-align:center;width:6.5rem;line-height:1.4}
+thead th:first-child{text-align:left;width:auto}
+tbody td:first-child{font-size:.94rem;color:var(--ink-soft);padding-left:.1rem}
+td.tick{text-align:center}
+td.tick label{display:inline-flex;padding:.3rem .8rem;cursor:pointer}
+.hp{position:absolute;left:-9999px;width:1px;height:1px;overflow:hidden}
+button{font:inherit;font-weight:600;font-size:1rem;background:var(--accent);color:#fff;border:0;padding:.85rem 1.6rem;cursor:pointer;align-self:flex-start}
+button:hover{filter:brightness(1.08)}
+button[disabled]{opacity:.55;cursor:default}
+#msg{font-size:.95rem;color:var(--ink-soft)}
+#msg.err{color:var(--err)}
+footer{margin-top:3rem;padding-top:1.4rem;border-top:1px solid var(--rule);color:var(--faint);font-size:.85rem}
+.done{display:flex;flex-direction:column;gap:1.1rem;padding:4rem 0}
+.done .eyebrow{color:var(--ok)}
+@media (prefers-reduced-motion:reduce){*{transition:none!important}}
+</style>
+</head>
+<body>
+<div class="wrap" id="root">
+
+<header>
+  <p class="eyebrow">Before the get-together</p>
+  <h1>How we actually use AI</h1>
+  <p class="lede">Nine questions, about five minutes. Richard Barry is running the AI sessions, and this tells him where we each are so he doesn't spend two days on things half of us already know and the other half can't follow.</p>
+</header>
+
+<div class="note">
+  <p><strong>This is anonymous.</strong> No sign-in, no email address collected, and nothing asking your role. The name box at the end is optional.</p>
+  <p>There are no wrong answers and this isn't a test of anyone. "I haven't really used it" is a genuinely useful answer and several of us will be giving it. Bear in mind there are only nine of us, so a very detailed written answer might be recognisable.</p>
+</div>
+
+<form id="f">
+  <div class="hp"><label>Leave this empty<input type="text" name="website" tabindex="-1" autocomplete="off"></label></div>
+
+  <fieldset>
+    <legend>
+      <span class="qnum">Question 1</span>
+      <h2>How do you use AI for work?</h2>
+      <p class="help">Tick everything you have ever done in the first column, and everything that's part of a normal week in the second. Most people tick more in the first column than the second, which is fine and useful to know.</p>
+    </legend>
+    <div class="gridwrap"><table>
+      <thead><tr><th></th><th>Have done<br>at least once</th><th>Part of a<br>normal week</th></tr></thead>
+      <tbody id="gridbody"></tbody>
+    </table></div>
+    <div class="opts"><label><input type="checkbox" name="no_usage" value="true"><span>I haven't really used AI tools for work at all</span></label></div>
+  </fieldset>
+
+  <fieldset>
+    <legend>
+      <span class="qnum">Question 2</span>
+      <h2>If you ticked the last row above, what does it do, and is it still running today?</h2>
+      <p class="help">Leave blank if it doesn't apply.</p>
+    </legend>
+    <textarea name="automation_desc"></textarea>
+  </fieldset>
+
+  <fieldset>
+    <legend>
+      <span class="qnum">Question 3</span>
+      <h2>Which of these have you personally opened, even once?</h2>
+    </legend>
+    <div class="opts" id="tools"></div>
+  </fieldset>
+
+  <fieldset>
+    <legend>
+      <span class="qnum">Question 4</span>
+      <h2>Which of these have you written or modified in the last twelve months?</h2>
+    </legend>
+    <div class="opts" id="tech"></div>
+  </fieldset>
+
+  <fieldset>
+    <legend>
+      <span class="qnum">Question 5</span>
+      <h2>If AI could take one task off your plate completely, what would it be?</h2>
+      <p class="help">Be specific about the task rather than the category. "Writing up scoping notes after a workshop" tells us more than "admin".</p>
+    </legend>
+    <textarea name="task_to_offload"></textarea>
+  </fieldset>
+
+  <fieldset>
+    <legend>
+      <span class="qnum">Question 6</span>
+      <h2>On day two we'll build something together. Which would be most useful to you personally?</h2>
+    </legend>
+    <div class="opts" id="builds"></div>
+    <input type="text" name="build_choice_other" placeholder="If you picked something else, what?">
+  </fieldset>
+
+  <fieldset>
+    <legend>
+      <span class="qnum">Question 7</span>
+      <h2>In client discovery sessions, how often does weak lead generation come up as a client pain?</h2>
+    </legend>
+    <div class="opts" id="freq"></div>
+  </fieldset>
+
+  <fieldset>
+    <legend>
+      <span class="qnum">Question 8</span>
+      <h2>Has a client ever asked whether you could help them with lead generation or outreach? What did you say?</h2>
+      <p class="help">Leave blank if not.</p>
+    </legend>
+    <textarea name="client_asked"></textarea>
+  </fieldset>
+
+  <fieldset>
+    <legend>
+      <span class="qnum">Question 9</span>
+      <h2>What stops you using AI more?</h2>
+    </legend>
+    <div class="opts" id="blockers"></div>
+  </fieldset>
+
+  <fieldset>
+    <legend>
+      <span class="qnum">Question 10</span>
+      <h2>Terms</h2>
+      <p class="help">Some of these get used a lot. For any that mean something to you, describe it in one line in your own words. If it isn't a term you use, just say so, that's a useful answer and not a wrong one.<br><br><strong>AI agent &middot; harness &middot; MCP</strong></p>
+    </legend>
+    <textarea name="terms"></textarea>
+  </fieldset>
+
+  <fieldset>
+    <legend>
+      <span class="qnum">Question 11</span>
+      <h2>Your name, if you're happy to leave it</h2>
+      <p class="help">Entirely optional. It helps tailor the day-two session. Don will only see the summary, not individual answers.</p>
+    </legend>
+    <input type="text" name="respondent_name" autocomplete="off">
+    <div class="opts"><label><input type="checkbox" name="withhold_from_group" value="true"><span>I'd rather my written answers weren't shown to the group, even anonymously</span></label></div>
+  </fieldset>
+
+  <button type="submit" id="btn">Send my answers</button>
+  <p id="msg"></p>
+</form>
+
+<footer><p>Answers go straight to Richard. Nothing else is recorded: no IP address, no email, no browser details.</p></footer>
+</div>
+
+<script>
+(function () {
+  var ENDPOINT = "https://jghnusapxrwdbxgnmlos.supabase.co/functions/v1/ai-survey";
+
+  var USAGE_ROWS = [
+    "Type or paste into a chat box, copy the answer back out",
+    "Attach files or documents for it to work on",
+    "Switched on connections so it reaches my files, email, calendar or a business system directly",
+    "Gave it a job and let it work through several steps on its own while I did something else",
+    "Built something that runs on a schedule or a trigger without me starting it"
+  ];
+  var TOOLS = ["Claude Code","Cursor","GitHub Copilot agent mode","OpenAI Codex","Gemini or Antigravity","Zapier, Make or n8n","Power Automate","A custom GPT or Claude Project I set up myself","None of these"];
+  var TECH = ["Workbooks PHP scripts","Report definitions","Web processes","API calls or integrations","SQL","Excel formulas beyond SUM and VLOOKUP","Spreadsheet macros","HTML or CSS","None of these"];
+  var BUILDS = [
+    "Turning a client scoping session, recording and notes and all, into a write-up, a mapped set of pains and gains, and a first-cut effort estimate",
+    "Finding and researching target companies, then producing outreach personal enough to get replies",
+    "Triaging support tickets and drafting the first response",
+    "Something else (please say what below)"
+  ];
+  var FREQ = ["Almost every time","Often","Sometimes","Rarely","I'm not in those sessions"];
+  var BLOCKERS = ["Don't know where to start","No time to learn it","Don't trust the output","Worried about client data and GDPR","No licence or access","Haven't found a use for it in my work","Concerned about what it means for my job","Nothing, I use it plenty"];
+
+  function fill(id, name, items, type) {
+    var box = document.getElementById(id);
+    items.forEach(function (o) {
+      var label = document.createElement("label");
+      var input = document.createElement("input");
+      input.type = type; input.name = name; input.value = o;
+      var span = document.createElement("span");
+      span.textContent = o;
+      label.appendChild(input); label.appendChild(span);
+      box.appendChild(label);
+    });
+  }
+
+  var tbody = document.getElementById("gridbody");
+  USAGE_ROWS.forEach(function (r) {
+    var tr = document.createElement("tr");
+    var td = document.createElement("td");
+    td.textContent = r;
+    tr.appendChild(td);
+    ["usage_ever", "usage_weekly"].forEach(function (n) {
+      var cell = document.createElement("td");
+      cell.className = "tick";
+      var label = document.createElement("label");
+      var input = document.createElement("input");
+      input.type = "checkbox"; input.name = n; input.value = r;
+      label.appendChild(input); cell.appendChild(label); tr.appendChild(cell);
+    });
+    tbody.appendChild(tr);
+  });
+
+  fill("tools", "tools", TOOLS, "checkbox");
+  fill("tech", "tech_artifacts", TECH, "checkbox");
+  fill("builds", "build_choice", BUILDS, "radio");
+  fill("freq", "leadgen_frequency", FREQ, "radio");
+  fill("blockers", "blockers", BLOCKERS, "checkbox");
+
+  var f = document.getElementById("f");
+  var btn = document.getElementById("btn");
+  var msg = document.getElementById("msg");
+  var MULTI = ["usage_ever", "usage_weekly", "tools", "tech_artifacts", "blockers"];
+  var SINGLE = ["automation_desc","task_to_offload","build_choice","build_choice_other","leadgen_frequency","client_asked","terms","respondent_name","website"];
+
+  f.addEventListener("submit", function (e) {
+    e.preventDefault();
+    btn.disabled = true;
+    msg.className = "";
+    msg.textContent = "Sending…";
+
+    var fd = new FormData(f);
+    var payload = {};
+    MULTI.forEach(function (k) {
+      payload[k] = fd.getAll(k).filter(function (v) { return String(v).trim() !== ""; });
+    });
+    SINGLE.forEach(function (k) {
+      payload[k] = String(fd.get(k) || "").slice(0, 5000);
+    });
+    payload.no_usage = fd.get("no_usage") === "true";
+    payload.withhold_from_group = fd.get("withhold_from_group") === "true";
+
+    fetch(ENDPOINT, {
+      method: "POST",
+      headers: { "content-type": "application/json" },
+      body: JSON.stringify(payload)
+    })
+      .then(function (r) { if (!r.ok) throw new Error("status " + r.status); return r.json(); })
+      .then(function () {
+        var root = document.getElementById("root");
+        root.innerHTML = "";
+        var d = document.createElement("div");
+        d.className = "done";
+        var e1 = document.createElement("p"); e1.className = "eyebrow"; e1.textContent = "Received";
+        var h = document.createElement("h1"); h.textContent = "Thank you.";
+        var p = document.createElement("p"); p.className = "lede";
+        p.textContent = "That's it, nothing else needed. If you think of something you left out, just fill it in again and say so, or tell Don.";
+        d.appendChild(e1); d.appendChild(h); d.appendChild(p);
+        root.appendChild(d);
+        window.scrollTo(0, 0);
+      })
+      .catch(function () {
+        btn.disabled = false;
+        msg.className = "err";
+        msg.textContent = "That didn't send. Please try again, and if it keeps failing let Don know rather than retyping it a third time.";
+      });
+  });
+})();
+</script>
+</body>
+</html>
