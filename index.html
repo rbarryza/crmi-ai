@@ -57,6 +57,21 @@ button[disabled]{opacity:.55;cursor:default}
 footer{margin-top:3rem;padding-top:1.4rem;border-top:1px solid var(--rule);color:var(--faint);font-size:.85rem}
 .done{display:flex;flex-direction:column;gap:1.1rem;padding:4rem 0}
 .done .eyebrow{color:var(--ok)}
+@media (max-width:620px){
+  .gridwrap{overflow-x:visible;border-top:0}
+  table{min-width:0}
+  thead{display:none}
+  tbody tr{display:block;padding:.75rem 0;border-bottom:1px solid var(--rule-soft)}
+  tbody tr:first-child{border-top:1px solid var(--rule-soft)}
+  tbody td{display:block;border:0;padding:0}
+  tbody td:first-child{font-size:.95rem;margin-bottom:.5rem;padding-left:0}
+  td.tick{display:inline-block;margin-right:1.4rem}
+  td.tick label{display:inline-flex;align-items:center;gap:.5rem;padding:.2rem 0}
+  td.tick label input{margin-top:0}
+  td.tick label::after{font-family:"IBM Plex Mono",ui-monospace,monospace;font-size:.68rem;letter-spacing:.06em;text-transform:uppercase;color:var(--muted)}
+  tbody td.tick:nth-child(2) label::after{content:"Have done"}
+  tbody td.tick:nth-child(3) label::after{content:"Normal week"}
+}
 @media (prefers-reduced-motion:reduce){*{transition:none!important}}
 </style>
 </head>
@@ -93,8 +108,8 @@ footer{margin-top:3rem;padding-top:1.4rem;border-top:1px solid var(--rule);color
   <fieldset>
     <legend>
       <span class="qnum">Question 2</span>
-      <h2>If you ticked the last row above, what does it do, and is it still running today?</h2>
-      <p class="help">Leave blank if it doesn't apply.</p>
+      <h2>If you've built something that runs on a schedule or a trigger, what does it do, and is it still running today?</h2>
+      <p class="help">Leave blank if you haven't. A Zapier, Make or Power Automate flow counts, so does a scheduled script or a Workbooks web process.</p>
     </legend>
     <textarea name="automation_desc"></textarea>
   </fieldset>
